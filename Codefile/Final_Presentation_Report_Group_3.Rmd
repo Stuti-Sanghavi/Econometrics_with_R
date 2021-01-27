@@ -1,0 +1,571 @@
+---
+title: "King County House Price Sales Final Project"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+<p>&nbsp;</p>
+
+### By Lahari Kuchibhotla, Stuti Sanghavi, Tanmayi Varansi and Sanjana Ramakandth
+
+<p>&nbsp;</p>
+
+```{r warning=FALSE, echo=TRUE, include=FALSE}
+#Importing packages
+library(AER)
+library(stargazer)
+library(wooldridge)
+library(doBy)
+library(ggplot2)
+library(erer)
+library(dplyr)
+library(pastecs)
+library(foreign)
+library(nnet)
+library(tidyverse) # data processing and visualization
+library(ggthemes)  # themes for ggplot2
+library(ggmap)     # ggplot for geographical data
+library(GGally)    # ggpairs()
+library(RPostgreSQL) # if you want to play around with a DBs
+library(knitr)     # tables and interactive documents
+library(corrplot)  # visualization of correlation matrices
+```
+## Abstract
+This report examines the causal effect house size along with a variety of amenities has on house price evidenced by data collected for house sales in King County, USA between 2014 and 2015. After utilizing multivariable regression for the analysis, the conclusion drawn was that as house size increases and amenities such as having a waterfront, a nicer view, renovated home or better construction all play a role in increasing the price of a house.
+
+<p>&nbsp;</p>
+
+## Introduction
+The Housing Sales dataset from Kaggle is about homes sold in King County, Seattle. The observations were made between May 2014 and May 2015. The data contains around 21K rows and 21 variables about various features of the home as well as the price the home was sold at and the location.
+
+<p>&nbsp;</p>
+
+#### Data Cleaning and Manipulation
+```{r}
+#Reading the csv file
+data <- read.csv("kc_house_data.csv")
+head(data)
+```
+
+<p>&nbsp;</p>
+
+#### Basic Descriptive Statistics
+```{r}
+#Getting descriptive statistics for data
+res <- stat.desc(data)
+print(res)
+```
+The above table shows the descriptive statistics for the entire dataset. Majority of the outliers were linked to having a nice view or a waterfront so they were not removed from the model. The one outlier that was removed was a house that had 33 bathrooms and only 1.75 bathrooms. This does not make sense as the house was only 1600 sqft.
+
+<p>&nbsp;</p>
+
+#### Data Cleaning
+
+Before running our models we cleaned the dataset. 
+
+* As price was on a much larger scale than the other variables, we scaled it down by 1000 so that when the variables were plotted together it would be easier to analyze. 
+
+* For easier interpretation of results, we added another column called **age_of_house** where we subtracted the year build from the current year.
+
+* For easier interpretation of results, we converted the yr_renovated column into a binary column and named it **renovated_factor**.
+
+* As discussed above, removed the outlier that had 33 bathrooms and only 1.75 bathrooms.
+
+```{r}
+# Scaling down the price variable for better readability
+data$price = data$price/1000
+
+# Adding a new column "age_of_house"
+data$age_of_house <- as.integer(format(Sys.Date(), "%Y")) - data$yr_built
+data <- data[,-c(1,2,15)]
+
+#Creating a binary column for yr_rennovated where:
+# 1 = House is renovated 
+# 0 = House is not renovated
+data$renovated_factor=ifelse(data$yr_renovated != 0, 1, 0)
+
+#Removing the outlier
+data <- subset(data, bedrooms <30)
+
+head(data)
+```
+
+<p>&nbsp;</p>
+
+#### Variables used in our analysis:
+
+1. <b>price</b> - Price of each home sold (outcome variable)
+
+2. <b>bedrooms</b> - Number of bedrooms
+
+3. <b>bathrooms</b> - Number of bathrooms, where .5 accounts for a room with a toilet but no shower
+
+4. <b>sqft_living</b> - Square footage of interior living space of the house
+
+5. <b>sqft_lot</b> - Square footage of the land space
+
+6. <b>floors</b> - Number of floors
+
+7. <b>waterfront</b> - A dummy variable for whether the apartment was overlooking the waterfront or not
+
+8. <b>view</b> - An index from 0 to 4 of how good the view of the property was
+
+9. <b>condition</b> - An index from 1 to 5 on the condition of the apartment,
+
+10. <b>grade</b> - An index from 1 to 13, where 1-6 falls short of building construction and design, 7 has an average level of construction and design, and 11-13 have a high quality level of construction and design.
+
+11. <b>sqft_above</b> - The square footage of the interior housing space that is above ground level
+
+12. <b>sqft_basement</b> - The square footage of the interior housing space that is below ground level
+
+13. <b>age_of_house</b> - Tells us how old the house is
+
+14. <b>yr_renovated</b> - The year of the house’s last renovation
+
+15. <b>zipcode</b> - What zipcode area the house is in
+
+<p>&nbsp;</p>
+
+## Exploring the data
+
+<p>&nbsp;</p>
+
+#### Basic Distribution plot
+
+```{r}
+#Distribution of the outcome variable (price)
+
+# We can see from the graph that the data is skewed.
+hist(data$price,border="red", xlab="price", main = "Distribution of price (Y)")
+
+```
+
+<p>&nbsp;</p>
+
+#### Correlations between the variables
+
+Positive correlations are displayed in blue and negative correlations in red color. Color intensity and the size of the circle are proportional to the correlation coefficients. In the right side of the correlogram, the legend color shows the correlation coefficients and the corresponding colors.
+
+```{r}
+# Correlation plot
+data[, 3:20] %>% 
+  dplyr::select(-zipcode) %>% cor() %>% 
+  corrplot::corrplot(type = "lower", order = "hclust", tl.col = "grey30", tl.cex = 0.9)
+```
+
+<p>&nbsp;</p>
+
+## Building our base specification model
+
+<p>&nbsp;</p>
+
+#### Regressing house price on sqft_living
+
+```{r}
+#Base specification model between our dependent variable and variable of interest.
+sqft_living <- lm(price ~ sqft_living, data = data)
+
+summary(sqft_living)
+```
+
+From the above results, we can see that sqft_living is positively correlated with the the price of the house.
+i.e. If the sqft_living increases by 1 foot, the price increases by $280.
+
+<p>&nbsp;</p>
+
+#### Plotting price vs sqft_living
+
+```{r}
+# Plot 1: plotting price vs sqft_living
+ggplot(data, aes(x=sqft_living, y=price)) + geom_point(col="blue") + 
+labs(title = "Price vs Sqft_living", x = "sqft_living", y = "Price") +
+stat_smooth(method = "lm", col = "red", se=FALSE) + theme(plot.title = element_text(hjust = 0.5))
+```
+
+<p>&nbsp;</p>
+
+#### Plotting the sqft_living and residuals
+
+Here, we notice that the variance of the residuals increases with sqft_living
+
+```{r}
+#Plot 2: plotting the residuals
+df_resid = data
+
+df_resid$resid<-resid(sqft_living)
+
+ggplot(df_resid, aes(x=sqft_living, y=resid)) + geom_point(col="blue") + 
+labs(title = "sqft_living and Residuals", x = "sqft_living", y = "Residuals")  + theme(plot.title = element_text(hjust = 0.5))
+```
+
+From the Plot 1 and Plot 2, we see that the errors are heteroskadastic. Therefore we need to correct for standard errors.
+
+To do that, we use CSE function to calculate heteroskedastic-robust standard errors.
+
+```{r}
+# CSE function is used to correct the standard errors
+cse=function(reg) {
+
+        rob=sqrt(diag(vcovHC(reg, type="HC2")))
+
+        return(rob)
+}
+```
+
+<p>&nbsp;</p>
+
+
+## Looking at Potential Control Variables
+
+After researching the relevant literature , we notice that our dependent variable (house price) is broadly dependent on different feature categories as follows:
+
+1. <b>Size of the house :</b> We know that size of the house plays an important factor in determining whether or not the house prices increase and we expect that as the size of the house increases, the house price should increase. The size of the house is captured by various variables in the dataset such as bedrooms, bathrooms, sqft_living, floors, sqft_lot, sqft_above, sqft_basement.
+
+2. <b> Location: </b> The Location of the house definitely plays an important role in determining the house price. We expect that houses having better location and safer neighbourhoods have higher prices as compared to unsafe locations and similarly, houses near water bodies are more expensive as compared to others. The variables in the dataset indicative of the location of the house include, waterfront, zipcode, lat and long. This is clearly indicated by the graph below where we see that the prices are higher for properties which are located near a waterfront / properties that may be in a safe neighbourhood as compared to others.
+
+
+```{r warning=FALSE, message=FALSE, echo=TRUE}
+#Estimating home density and price
+map <- qmplot(long, lat, data = data, geom = "blank",
+       maptype = "toner-lite") +
+  stat_density_2d(aes(fill = price), 
+                  geom = "polygon", alpha = .5, color = NA) +
+  scale_fill_gradient2(low = "steelblue", mid = "seagreen4", 
+                        high = "indianred", midpoint = 7) +
+  labs(title = "Estimated home density")
+map
+```
+
+
+3. <b> View : </b> If a particular house has a view or not. We expect that houses with better views have higher prices. A house having a city view, ocean view, mountain view etc have higher prices as compared to houses which are more inland. The variable capturing that in the dataset is view.
+
+4. <b> Conditions: </b> If the house is in a better condition, it would require lesser maintainence work and the house prices would generally be higher for prices with better condition. If the house has better construction, meaning it has better plumbing, roofing or newer appliances the house would be more expensive. Similarily if the house had a lower Grade the house would be less expensive.The variables which talk about the conditions of the home in our dataset are, condition and grade  
+
+5. <b> Age of the house: </b> We would expect that if the age of the house increases, i.e. if its an old house, the price of the house should decrease. Similarly, if it's a new construction / newly renovated home, the house price should be higher. The variables indicative of the age of the house in our dataset are, age_of_house and yr_renovated variable.
+
+Other factors such as economic growth, supply and demand and interest rates all play a role in house prices. However our dataset does not include these factors so we will use the above mentioned variables to see which of these variables help us explain the effect of sqft_living on house price.
+
+
+<p>&nbsp;</p>
+
+## Research Question/Hypothesis:
+
+- **Research Question:** What is the causal effect of sqft_living on house price?
+
+- **Null Hypothesis:** There is no difference in house price when sqft_living increases and amenities such as having view, waterfront, renovation and grade are added.
+
+- **Alternative Hypothesis:** Sqft_living, having a waterfront, view, Renovation and/or grade impact the price of the house. 
+
+- **Variable of Interest:** Sqft_living
+
+- **Dependent Variable:** House Price
+
+- **Control Variables:** Waterfront, View, Renovation and Grade
+
+<p>&nbsp;</p>
+
+## Nested Method Analysis
+
+<p>&nbsp;</p>
+
+For the variables that fall under each of the categories mentioned above, we used a nested approach to determine whether they should be included in the final model or not. In the nested approach we run two variable regression models, wherein we see how adding one variable at a time to the base model affects the newly created model and how that compares to the base specification. For all the variables falling under one category, we plan to shortlist and use only one of the variables as control variables. The variable selected from each category would be the one that has the most effect or impact on house price when added in conjunction with the variable of interest. We plan to use only one variable from each category and not more than that because we might face an issue of multicollinearity. However we also plan to select atleast one variable from each category of size, location, view, condition and age to capture the highest impact of these features along with sqft_living on house price. 
+
+<p>&nbsp;</p>
+
+#### Models - Part 1
+Our Base specification model is when we regress Price with Sqft_living. The Alternative specifications are shown below.
+
+```{r warning=FALSE}
+#renovated_factor and sqft_living
+sqft_renovated <- lm(price ~ sqft_living + as.factor(renovated_factor) , data=data)
+
+#Bathroom and sqft_living
+sqft_bathrooms <-  lm(price ~ sqft_living + bathrooms , data=data)
+
+#Bedrooms and sqft_living
+sqft_bedrooms <-  lm(price ~ sqft_living + bedrooms , data=data)
+
+#Waterfront and sqft_living
+sqft_waterfront <-  lm(price ~ sqft_living + as.factor(waterfront) , data=data)
+
+#Sqft_above and sqft_living
+sqft_sabove <- lm((price) ~ sqft_living + sqft_above, data=data)
+
+
+stargazer(sqft_living,sqft_bathrooms,sqft_bedrooms,sqft_waterfront,sqft_sabove,sqft_renovated, se=list(cse(sqft_living),cse(sqft_bathrooms), cse(sqft_bedrooms),cse(sqft_waterfront),cse(sqft_sabove),cse(sqft_renovated)),title="Price vs renovated_factor, Bedrooms,Bathrooms,waterfront,square_footage_above ", type="text", star.cutoffs=NA, df=FALSE, digits=3)
+
+
+```
+<p>&nbsp;</p>
+
+#### Correlations:
+
+```{r}
+#Bathroom and sqft_living
+paste("Correlation between bathrooms and Living Square footage: ", round(cor(data$bathrooms, data$sqft_living), digits=2))
+
+#Bedrooms and sqft_living
+paste("Correlation between Bedrooms and Living Square footage: ", round(cor(data$bedrooms, data$sqft_living), digits=2))
+
+#Waterfront and sqft_living
+paste("Correlation between Waterfront and Living Square footage: ", round(cor(data$waterfront, data$sqft_living), digits=2))
+
+#Sqft_above and sqft_living
+paste("Correlation between sqft_above and Living Square footage: ", round(cor(data$sqft_above, data$sqft_living), digits=2))
+
+#renovated_factor and sqft_living
+paste("Correlation between renovated_factor and Living Square footage: ", round(cor(data$renovated_factor, data$sqft_living), digits=2))
+```
+
+<p>&nbsp;</p>
+
+```{r warning=FALSE}
+#Price vs bedroom and bathroom
+#Bathroom and price
+price_bathrooms <-  lm(price ~ bathrooms , data=data)
+
+#Bedrooms and price
+price_bedrooms <-  lm(price ~ bedrooms , data=data)
+
+stargazer(price_bathrooms,price_bedrooms, se=list(cse(price_bathrooms), cse(price_bedrooms)),title="Price vs Bedrooms and Bathrooms", type="text", star.cutoffs=NA, df=FALSE, digits=3)
+
+```
+<p>&nbsp;</p>
+
+
+* When the number of bedrooms or bathrooms increases the price intuitively should increase but we don’t see that in the first regression table. We then regressed bedrooms and bathrooms individually with price and they had a positive relationship. But when we add these variables in conjunction with sqft_living, their coefficients are negative. This indicates that these models are suffering from imperfect multicollinearity and hence the variables bedrooms and bathrooms should not be included in the model.
+
+* When waterfront is included, the adjusted R2 increases. The coefficient of sqft_living decreases. This means the model was suffering from upward omitted variable bias. Generally waterfront properties have higher sqft_living and higher prices which explains the upward omitted variable bias. Therefore, we include waterfront as one of our control variables.
+
+* We see a similar problem as that of bedrooms and bathrooms, when sqft_above is added. The standard error increases and as the correlation between sqft_living and sqft_living is 0.87 it is suffering from imperfect multicollinearity as well. Hence we exclude the variable sqft_above from our final model.
+
+* When we include renovated_factor in our model, the adjusted R2 increases and the positive coefficient makes sense intuitively. i.e. If the house is renovated, the price increase by $160000. Also, the coefficient of the sqft_living decreases, which means that the model was suffering from upward omitted variable bias and the variable renovated factor helps us correct for that and hence we decide to include the variable in our model.
+
+<p>&nbsp;</p>
+
+### Models - Part 2
+Next we regressed Price with view, condition, grade, age_of_house and yr_renovated.
+
+```{r warning=FALSE}
+#Condition and Living Square footage
+sqft_condition <-  lm(price ~ sqft_living + condition , data=data)
+
+#Age of the house and Living Square footage
+sqft_age_of_house <-  lm(price ~ sqft_living + age_of_house , data=data)
+
+#Grade and Living Square footage
+sqft_grade <-  lm(price ~ sqft_living + grade , data=data)
+
+#View and Living Square footage
+sqft_view <-  lm(price ~ sqft_living + as.factor(view) , data=data)
+
+#Floors and Living Square footage
+sqft_floors <-  lm(price ~ sqft_living + floors , data=data)
+
+
+stargazer(sqft_living, sqft_condition,sqft_age_of_house,sqft_grade,sqft_view, sqft_floors,  se=list(cse(sqft_living),cse(sqft_condition), cse(sqft_age_of_house),cse(sqft_grade),cse(sqft_view), cse(sqft_floors)),
+
+                     title="Price vs Condition, Age of the House, Grade and View respectively ", type="text", star.cutoffs=NA, df=FALSE, digits=3)
+
+```
+<p>&nbsp;</p>
+
+#### Correlations:
+
+```{r}
+#Condition and Living Square footage
+paste("Condition and Living Square footage: ", round(cor(data$condition, data$sqft_living), digits=2))
+
+# Age of the house and Living Square footage
+paste("Year the age_of_house and Living Square footage: ", round(cor(data$age_of_house, data$sqft_living), digits=2))
+
+# View and Living Square footage
+paste("View and Living Square footage: ", round(cor(data$view, data$sqft_living), digits=2))
+
+# Floors and Living Square footage
+paste("Floors and Living Square footage: ", round(cor(data$floors, data$sqft_living), digits=2))
+```
+
+* The correlation between condition with sqft_living is very small (i.e -0.06). That means that the model was suffering from omitted variable bias which is not severe since the values are not significantly different from the base specification. Hence we decide to exclude this from our final model.
+
+* Age_of_house has a downward bias as the coefficient of sqft_living increases and also it is negatively correlated with price. However even though the adjusted R2 of the model increases, it is counter intuitive because an older house should be cheaper and hence we decide to exclude age_of_house from our final model.
+
+* The Floors variable when added to the model isn't significant and the R2 does not increase. Therefore we will not add it in our model.
+
+* The addition of the other two variables grade and view with sqft_living, indicates upward omitted variable bias has been removed since the coefficient of sqft_living decreases and overall model performance increases. Hence we decide to keep grade and view in our final model.
+
+<p>&nbsp;</p>
+
+## Final Models:
+
+```{r warning=FALSE}
+#Model 1
+sqft_living <- lm(price ~ sqft_living, data=data)
+
+#Model2
+sqft_waterfront <-  lm(price ~ sqft_living + as.factor(waterfront), data=data)
+
+#Model 3
+sqft_waterfront_grade <-  lm(price ~ sqft_living + as.factor(waterfront) + grade , data=data)
+
+#Model 4
+sqft_waterfront_g_v <-  lm(price ~ sqft_living + as.factor(waterfront) + grade + as.factor(view) , data=data)
+
+#Model 5
+sqft_waterfront_g_v_r <-  lm(price ~ sqft_living + as.factor(waterfront) + renovated_factor + grade + as.factor(view), data=data)
+
+#Model 6
+reg6 <- lm(price ~ sqft_living + as.factor(waterfront) + grade + renovated_factor + as.factor(view) +floors*renovated_factor, data=data)
+
+
+#stargazer
+stargazer(sqft_living, sqft_waterfront, sqft_waterfront_grade, sqft_waterfront_g_v, sqft_waterfront_g_v_r, reg6, se=list(cse(sqft_living),cse(sqft_waterfront),cse(sqft_waterfront_grade), cse(sqft_waterfront_g_v), cse(sqft_waterfront_g_v_r), cse(reg6)),title="Price vs Square living footage with control variables ", type="text", star.cutoffs=NA, df=FALSE, digits=3)
+```
+
+
+For each category of dependent variable price, we found one variable to control each aspect.  For example, from size aspect, we just selected the variable of interest sqft_living in our model. We did not include any of the remaining variables from the size category in our final model. If we were to include more than one control variable to control for the same category of our dependent variable, multicollinearity becomes a problem which would throw off our coefficient estimates.To avoid that, we keep **regression 5 (sqft_waterfront_g_v_r)** as our final model. The variables included in the model from each category are:
+
+**Grade:** because we feel grade or the quality of construction for the house would play a role in how low or high the price of the house would be. If the house has better construction, meaning it has better plumbing, roofing or newer appliances the house would be more expensive. Similarily if the house had a lower Grade the house would be less expensive. Overall,as grade increases it has a positive relationship with price. 
+
+**Waterfront and View:** Houses with better views are expected to be more expensive. The view of a house is also indicative of location. In our case, houses near the water are more expensive and have better views compared to houses more inland. The view  variable accounts for two things and explains house price increases or decreases well which is why it is one of our control variables. Overall,as view increases it has a positive relationship with price.
+
+And lastly, the **dummy variable Renovation** indicates if any remodelling was done. Renovations are known to increase the value of older homes and allow them to potentially be priced at a higher rate. If Renovation is 1 it causes an increase in price.
+
+Each of these variables are included in the model and we see that, estimated beta hat of sqft_living is suffering from upward omitted variable bias and by adding these variables we are able to fix that bias. The coefficient estimate of sqft_living decreases as expected. And the model performance increases as we move from model 1 to 5.
+
+#### **Interpretation for each of the variable in the final model includes:**
+
+*sqft_living*
+
+- Estimate : 0.163
+
+- Interpretation: Holding everything else constant, the marginal effect of 1 foot increase in sqft_living increases the house price on an average by $163.
+
+*waterfront*
+
+- Estimate : 492.703
+
+- Interpretation: Holding everything else constant, a house with a waterfront has house price higher by $492703 on an average as compared to houses without waterfront.
+
+*renovated_factor*
+
+- Estimate : 129.925
+
+- Interpretation: Holding everything else constant, a house which is renovated increases the price on average by $129925 as compared to a house that is not renovated.
+
+*grade*
+
+- Estimate : 96.134
+
+- Interpretation: Holding everything else constant, with each level increase in grade (i.e. from poor building construction and design to good building construction and design), the price increases by $96134 on an average.
+
+*view1*
+
+- Estimate : 167.535
+
+- Interpretation: Holding everything else constant, if the house has view 1 on a scale of 0-4, the price increases by $167535 on an average.
+
+*view2*
+
+- Estimate : 107.162
+
+- Interpretation: Holding everything else constant, if the house has view 2 on a scale of 0-4, the price increases by $107162 on an average.
+
+*view3*
+
+- Estimate : 169.044
+
+- Interpretation: Holding everything else constant, if the house has view 3 on a scale of 0-4, the price increases by $169044 on an average.
+
+*view4*
+
+- Estimate : 374.421
+
+- Interpretation: Holding everything else constant, if the house has view 4 on a scale of 0-4, the price increases by $374421 on an average.
+
+```{r}
+#Calculating the correlation between control variables and variable of interest(sqft_living)
+
+round(cor(data$sqft_living,data[c(7,8,10,20)]),2)
+```
+
+Another reason we have chosen to add these control variables along with our variable of interest is their correlation. A renovated home could mean anything from new appliances to expanding the actual sqft_living. With the potentially of meaningfully impacting the variable of interest we added the dummy variable to the model. Next the waterfront variable has a subtle relationship with living footage. Homes near the water are known to be more expensive for a multitude of reasons one of which being that the homes are expected to be larger. View is linked a little with waterfront as both of these variables take into consideration the location. As expected certain neighborhoods have larger homes and just in general more sqft_living. Lastly, grade is associated with construction which accounts for things like closet areas and stairways. Things such as enclosed porches are sometimes included in sqft_living which is associated with a higher grade value. Overall, these four control variables play a role in determining price and also have a relationship with our variable of interest.
+
+**We also validate our final model findings by running t and f-tests as follows:**
+
+<p>&nbsp;</p>
+
+#### **Testing for significance of our control variables in model 5 using a T-test** 
+
+* sqft_living : |20.38| > 1.96
+
+* as.factor(waterfront)1 : |6.50| > 1.96
+
+* renovated_factor : |10.78| > 1.96
+
+* grade : |28.15| > 1.96
+
+* as.factor(view)1 : |8.32| > 1.96
+
+* as.factor(view)2 : |9.76| > 1.96
+
+* as.factor(view)3 : |9.07| > 1.96
+
+* as.factor(view)4 : |8.18| > 1.96
+
+We can see that all the control variables in our final model are statistically significant at 5% significance level (i.e. |t-stat| > 1.96). Therefore, we can safely reject the null hypothesis that any of these variables do not have a coefficient of zero.
+
+<p>&nbsp;</p>
+
+
+
+#### Performing F tests to determine the significance of the model
+
+```{r}
+### Comparing model with waterfront, grade and view i.e. model 5 with model 1
+
+unrestricted_model <- sqft_waterfront_g_v_r
+restricted_model <- sqft_living
+anova(restricted_model, unrestricted_model)
+```
+Comparing the Restricted Model with the Unrestricted Model, we can see that the Unrestricted model is a better fit as its p value is less than 0.05 and the F value ie greater than the critical value. Therefore we reject the null hypothesis and state that at least one of the coefficients of the variables is non-zero
+
+```{r}
+### Comparing model 6 with model 5(our final model)
+unrestricted_model_1 <- reg6
+restricted_model_1 <- sqft_waterfront_g_v_r
+anova(restricted_model_1, unrestricted_model_1)
+
+```
+
+Comparing model 6 and 5, from the above regression table we can see that the beta hat estimator is not changing. As the beta hat has converged we can say that we have gotten our final model. The addition of the interaction variable floors with renovated_factor improves the goodness of fit slightly. We will stick with regression 5 as our final modelbecause floors variable doesn't add much value even though the R-square increases and also because we do not want to overfit the model. We believe that the control variables we have chosen take into consideration a variety of factors that impact house price as a whole.
+ 
+<p>&nbsp;</p> 
+ 
+## Conclusion: 
+The Square Foot Living of the house has a positive impact on house prices. Furthermore, as new amenities are added to a house, the house price will increase. 
+
+<p>&nbsp;</p>
+
+*Internal Validity* 
+Our estimators were unbiased and consistent because as the sample size increases the estimates are getting closer to the true value. Also the estimators are converging to the true value.
+
+* Furthermore, we corrected for Heteroskedasticity by using the cse function which means that the first assumption of the least square i.e. Var(x|u) = 0 is met. 
+
+* The second assumption is met because our variable of interest and dependent variable are i.i.d which is assumed for cross-sectional observational data. 
+
+* The third assumption is met, as we determined which outliers could be kept and which needed to be removed. 
+
+* For the fourth assumption, we removed any control variables that resulted in Multicollinearity.
+
+* As we have met the four assumptions for Least Squares we can say that our estimator is unbiased. E(hatβ0) =β0 and E(hatβ1) =β1. 
+
+* Also comparing our restricted model to our unrestricted model our R^2 and adjusted R^2 increased from 49% to 60%. This means our final model explains 11% more of the variation in Y than our base specification model.
+
+<p>&nbsp;</p>
+
+*External Validity* 
+ As our data is only house sales for one year in King's County, we think we would need a larger sample size to generalize our findings. 
+

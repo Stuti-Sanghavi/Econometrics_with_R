@@ -1,0 +1,1424 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={King County House Price Sales Final Project},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{King County House Price Sales Final Project}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+~
+
+\hypertarget{by-lahari-kuchibhotla-stuti-sanghavi-tanmayi-varansi-and-sanjana-ramakandth}{%
+\subsubsection{By Lahari Kuchibhotla, Stuti Sanghavi, Tanmayi Varansi
+and Sanjana
+Ramakandth}\label{by-lahari-kuchibhotla-stuti-sanghavi-tanmayi-varansi-and-sanjana-ramakandth}}
+
+~
+
+\hypertarget{abstract}{%
+\subsection{Abstract}\label{abstract}}
+
+This report examines the causal effect house size along with a variety
+of amenities has on house price evidenced by data collected for house
+sales in King County, USA between 2014 and 2015. After utilizing
+multivariable regression for the analysis, the conclusion drawn was that
+as house size increases and amenities such as having a waterfront, a
+nicer view, renovated home or better construction all play a role in
+increasing the price of a house.
+
+~
+
+\hypertarget{introduction}{%
+\subsection{Introduction}\label{introduction}}
+
+The Housing Sales dataset from Kaggle is about homes sold in King
+County, Seattle. The observations were made between May 2014 and May
+2015. The data contains around 21K rows and 21 variables about various
+features of the home as well as the price the home was sold at and the
+location.
+
+~
+
+\hypertarget{data-cleaning-and-manipulation}{%
+\paragraph{Data Cleaning and
+Manipulation}\label{data-cleaning-and-manipulation}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Reading the csv file}
+\NormalTok{data <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"kc_house_data.csv"}\NormalTok{)}
+\KeywordTok{head}\NormalTok{(data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           id            date   price bedrooms bathrooms sqft_living sqft_lot
+## 1 7129300520 20141013T000000  221900        3      1.00        1180     5650
+## 2 6414100192 20141209T000000  538000        3      2.25        2570     7242
+## 3 5631500400 20150225T000000  180000        2      1.00         770    10000
+## 4 2487200875 20141209T000000  604000        4      3.00        1960     5000
+## 5 1954400510 20150218T000000  510000        3      2.00        1680     8080
+## 6 7237550310 20140512T000000 1225000        4      4.50        5420   101930
+##   floors waterfront view condition grade sqft_above sqft_basement yr_built
+## 1      1          0    0         3     7       1180             0     1955
+## 2      2          0    0         3     7       2170           400     1951
+## 3      1          0    0         3     6        770             0     1933
+## 4      1          0    0         5     7       1050           910     1965
+## 5      1          0    0         3     8       1680             0     1987
+## 6      1          0    0         3    11       3890          1530     2001
+##   yr_renovated zipcode     lat     long sqft_living15 sqft_lot15
+## 1            0   98178 47.5112 -122.257          1340       5650
+## 2         1991   98125 47.7210 -122.319          1690       7639
+## 3            0   98028 47.7379 -122.233          2720       8062
+## 4            0   98136 47.5208 -122.393          1360       5000
+## 5            0   98074 47.6168 -122.045          1800       7503
+## 6            0   98053 47.6561 -122.005          4760     101930
+\end{verbatim}
+
+~
+
+\hypertarget{basic-descriptive-statistics}{%
+\paragraph{Basic Descriptive
+Statistics}\label{basic-descriptive-statistics}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Getting descriptive statistics for data}
+\NormalTok{res <-}\StringTok{ }\KeywordTok{stat.desc}\NormalTok{(data)}
+\KeywordTok{print}\NormalTok{(res)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                        id date        price     bedrooms    bathrooms
+## nbr.val      2.161300e+04   NA 2.161300e+04 2.161300e+04 2.161300e+04
+## nbr.null     0.000000e+00   NA 0.000000e+00 1.300000e+01 1.000000e+01
+## nbr.na       0.000000e+00   NA 0.000000e+00 0.000000e+00 0.000000e+00
+## min          1.000102e+06   NA 7.500000e+04 0.000000e+00 0.000000e+00
+## max          9.900000e+09   NA 7.700000e+06 3.300000e+01 8.000000e+00
+## range        9.899000e+09   NA 7.625000e+06 3.300000e+01 8.000000e+00
+## sum          9.899406e+13   NA 1.167293e+10 7.285400e+04 4.570625e+04
+## median       3.904930e+09   NA 4.500000e+05 3.000000e+00 2.250000e+00
+## mean         4.580302e+09   NA 5.400881e+05 3.370842e+00 2.114757e+00
+## SE.mean      1.956666e+07   NA 2.497233e+03 6.326366e-03 5.238720e-03
+## CI.mean.0.95 3.835210e+07   NA 4.894760e+03 1.240014e-02 1.026828e-02
+## var          8.274629e+18   NA 1.347824e+11 8.650150e-01 5.931513e-01
+## std.dev      2.876566e+09   NA 3.671272e+05 9.300618e-01 7.701632e-01
+## coef.var     6.280297e-01   NA 6.797542e-01 2.759138e-01 3.641851e-01
+##               sqft_living     sqft_lot       floors   waterfront         view
+## nbr.val      2.161300e+04 2.161300e+04 2.161300e+04 2.161300e+04 2.161300e+04
+## nbr.null     0.000000e+00 0.000000e+00 0.000000e+00 2.145000e+04 1.948900e+04
+## nbr.na       0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00 0.000000e+00
+## min          2.900000e+02 5.200000e+02 1.000000e+00 0.000000e+00 0.000000e+00
+## max          1.354000e+04 1.651359e+06 3.500000e+00 1.000000e+00 4.000000e+00
+## range        1.325000e+04 1.650839e+06 2.500000e+00 1.000000e+00 4.000000e+00
+## sum          4.495287e+07 3.265069e+08 3.229650e+04 1.630000e+02 5.064000e+03
+## median       1.910000e+03 7.618000e+03 1.500000e+00 0.000000e+00 0.000000e+00
+## mean         2.079900e+03 1.510697e+04 1.494309e+00 7.541757e-03 2.343034e-01
+## SE.mean      6.247319e+00 2.817461e+02 3.673054e-03 5.884979e-04 5.212562e-03
+## CI.mean.0.95 1.224521e+01 5.522432e+02 7.199457e-03 1.153499e-03 1.021701e-02
+## var          8.435337e+05 1.715659e+09 2.915880e-01 7.485226e-03 5.872426e-01
+## std.dev      9.184409e+02 4.142051e+04 5.399889e-01 8.651720e-02 7.663176e-01
+## coef.var     4.415794e-01 2.741815e+00 3.613636e-01 1.147176e+01 3.270620e+00
+##                 condition        grade   sqft_above sqft_basement     yr_built
+## nbr.val      2.161300e+04 2.161300e+04 2.161300e+04  2.161300e+04 2.161300e+04
+## nbr.null     0.000000e+00 0.000000e+00 0.000000e+00  1.312600e+04 0.000000e+00
+## nbr.na       0.000000e+00 0.000000e+00 0.000000e+00  0.000000e+00 0.000000e+00
+## min          1.000000e+00 1.000000e+00 2.900000e+02  0.000000e+00 1.900000e+03
+## max          5.000000e+00 1.300000e+01 9.410000e+03  4.820000e+03 2.015000e+03
+## range        4.000000e+00 1.200000e+01 9.120000e+03  4.820000e+03 1.150000e+02
+## sum          7.368800e+04 1.654880e+05 3.865249e+07  6.300385e+06 4.259933e+07
+## median       3.000000e+00 7.000000e+00 1.560000e+03  0.000000e+00 1.975000e+03
+## mean         3.409430e+00 7.656873e+00 1.788391e+03  2.915090e+02 1.971005e+03
+## SE.mean      4.426414e-03 7.995578e-03 5.632751e+00  3.010436e+00 1.998006e-01
+## CI.mean.0.95 8.676097e-03 1.567192e-02 1.104061e+01  5.900677e+00 3.916240e-01
+## var          4.234665e-01 1.381703e+00 6.857347e+05  1.958727e+05 8.627973e+02
+## std.dev      6.507430e-01 1.175459e+00 8.280910e+02  4.425750e+02 2.937341e+01
+## coef.var     1.908657e-01 1.535168e-01 4.630370e-01  1.518221e+00 1.490276e-02
+##              yr_renovated      zipcode          lat          long sqft_living15
+## nbr.val      2.161300e+04 2.161300e+04 2.161300e+04  2.161300e+04  2.161300e+04
+## nbr.null     2.069900e+04 0.000000e+00 0.000000e+00  0.000000e+00  0.000000e+00
+## nbr.na       0.000000e+00 0.000000e+00 0.000000e+00  0.000000e+00  0.000000e+00
+## min          0.000000e+00 9.800100e+04 4.715590e+01 -1.225190e+02  3.990000e+02
+## max          2.015000e+03 9.819900e+04 4.777760e+01 -1.213150e+02  6.210000e+03
+## range        2.015000e+03 1.980000e+02 6.217000e-01  1.204000e+00  5.811000e+03
+## sum          1.824186e+06 2.119759e+09 1.027915e+06 -2.641409e+06  4.293536e+07
+## median       0.000000e+00 9.806500e+04 4.757180e+01 -1.222300e+02  1.840000e+03
+## mean         8.440226e+01 9.807794e+04 4.756005e+01 -1.222139e+02  1.986552e+03
+## SE.mean      2.732259e+00 3.639461e-01 9.425230e-04  9.579273e-04  4.662094e+00
+## CI.mean.0.95 5.355429e+00 7.133612e-01 1.847415e-03  1.877608e-03  9.138049e+00
+## var          1.613462e+05 2.862788e+03 1.919990e-02  1.983262e-02  4.697612e+05
+## std.dev      4.016792e+02 5.350503e+01 1.385637e-01  1.408283e-01  6.853913e+02
+## coef.var     4.759105e+00 5.455358e-04 2.913447e-03 -1.152310e-03  3.450155e-01
+##                sqft_lot15
+## nbr.val      2.161300e+04
+## nbr.null     0.000000e+00
+## nbr.na       0.000000e+00
+## min          6.510000e+02
+## max          8.712000e+05
+## range        8.705490e+05
+## sum          2.759646e+08
+## median       7.620000e+03
+## mean         1.276846e+04
+## SE.mean      1.857255e+02
+## CI.mean.0.95 3.640357e+02
+## var          7.455182e+08
+## std.dev      2.730418e+04
+## coef.var     2.138409e+00
+\end{verbatim}
+
+The above table shows the descriptive statistics for the entire dataset.
+Majority of the outliers were linked to having a nice view or a
+waterfront so they were not removed from the model. The one outlier that
+was removed was a house that had 33 bathrooms and only 1.75 bathrooms.
+This does not make sense as the house was only 1600 sqft.
+
+~
+
+\hypertarget{data-cleaning}{%
+\paragraph{Data Cleaning}\label{data-cleaning}}
+
+Before running our models we cleaned the dataset.
+
+\begin{itemize}
+\item
+  As price was on a much larger scale than the other variables, we
+  scaled it down by 1000 so that when the variables were plotted
+  together it would be easier to analyze.
+\item
+  For easier interpretation of results, we added another column called
+  \textbf{age\_of\_house} where we subtracted the year build from the
+  current year.
+\item
+  For easier interpretation of results, we converted the yr\_renovated
+  column into a binary column and named it \textbf{renovated\_factor}.
+\item
+  As discussed above, removed the outlier that had 33 bathrooms and only
+  1.75 bathrooms.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Scaling down the price variable for better readability}
+\NormalTok{data}\OperatorTok{$}\NormalTok{price =}\StringTok{ }\NormalTok{data}\OperatorTok{$}\NormalTok{price}\OperatorTok{/}\DecValTok{1000}
+
+\CommentTok{# Adding a new column "age_of_house"}
+\NormalTok{data}\OperatorTok{$}\NormalTok{age_of_house <-}\StringTok{ }\KeywordTok{as.integer}\NormalTok{(}\KeywordTok{format}\NormalTok{(}\KeywordTok{Sys.Date}\NormalTok{(), }\StringTok{"%Y"}\NormalTok{)) }\OperatorTok{-}\StringTok{ }\NormalTok{data}\OperatorTok{$}\NormalTok{yr_built}
+\NormalTok{data <-}\StringTok{ }\NormalTok{data[,}\OperatorTok{-}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{15}\NormalTok{)]}
+
+\CommentTok{#Creating a binary column for yr_rennovated where:}
+\CommentTok{# 1 = House is renovated }
+\CommentTok{# 0 = House is not renovated}
+\NormalTok{data}\OperatorTok{$}\NormalTok{renovated_factor=}\KeywordTok{ifelse}\NormalTok{(data}\OperatorTok{$}\NormalTok{yr_renovated }\OperatorTok{!=}\StringTok{ }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{0}\NormalTok{)}
+
+\CommentTok{#Removing the outlier}
+\NormalTok{data <-}\StringTok{ }\KeywordTok{subset}\NormalTok{(data, bedrooms }\OperatorTok{<}\DecValTok{30}\NormalTok{)}
+
+\KeywordTok{head}\NormalTok{(data)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    price bedrooms bathrooms sqft_living sqft_lot floors waterfront view
+## 1  221.9        3      1.00        1180     5650      1          0    0
+## 2  538.0        3      2.25        2570     7242      2          0    0
+## 3  180.0        2      1.00         770    10000      1          0    0
+## 4  604.0        4      3.00        1960     5000      1          0    0
+## 5  510.0        3      2.00        1680     8080      1          0    0
+## 6 1225.0        4      4.50        5420   101930      1          0    0
+##   condition grade sqft_above sqft_basement yr_renovated zipcode     lat
+## 1         3     7       1180             0            0   98178 47.5112
+## 2         3     7       2170           400         1991   98125 47.7210
+## 3         3     6        770             0            0   98028 47.7379
+## 4         5     7       1050           910            0   98136 47.5208
+## 5         3     8       1680             0            0   98074 47.6168
+## 6         3    11       3890          1530            0   98053 47.6561
+##       long sqft_living15 sqft_lot15 age_of_house renovated_factor
+## 1 -122.257          1340       5650           65                0
+## 2 -122.319          1690       7639           69                1
+## 3 -122.233          2720       8062           87                0
+## 4 -122.393          1360       5000           55                0
+## 5 -122.045          1800       7503           33                0
+## 6 -122.005          4760     101930           19                0
+\end{verbatim}
+
+~
+
+\hypertarget{variables-used-in-our-analysis}{%
+\paragraph{Variables used in our
+analysis:}\label{variables-used-in-our-analysis}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  price - Price of each home sold (outcome variable)
+\item
+  bedrooms - Number of bedrooms
+\item
+  bathrooms - Number of bathrooms, where .5 accounts for a room with a
+  toilet but no shower
+\item
+  sqft\_living - Square footage of interior living space of the house
+\item
+  sqft\_lot - Square footage of the land space
+\item
+  floors - Number of floors
+\item
+  waterfront - A dummy variable for whether the apartment was
+  overlooking the waterfront or not
+\item
+  view - An index from 0 to 4 of how good the view of the property was
+\item
+  condition - An index from 1 to 5 on the condition of the apartment,
+\item
+  grade - An index from 1 to 13, where 1-6 falls short of building
+  construction and design, 7 has an average level of construction and
+  design, and 11-13 have a high quality level of construction and
+  design.
+\item
+  sqft\_above - The square footage of the interior housing space that is
+  above ground level
+\item
+  sqft\_basement - The square footage of the interior housing space that
+  is below ground level
+\item
+  age\_of\_house - Tells us how old the house is
+\item
+  yr\_renovated - The year of the house's last renovation
+\item
+  zipcode - What zipcode area the house is in
+\end{enumerate}
+
+~
+
+\hypertarget{exploring-the-data}{%
+\subsection{Exploring the data}\label{exploring-the-data}}
+
+~
+
+\hypertarget{basic-distribution-plot}{%
+\paragraph{Basic Distribution plot}\label{basic-distribution-plot}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Distribution of the outcome variable (price)}
+
+\CommentTok{# We can see from the graph that the data is skewed.}
+\KeywordTok{hist}\NormalTok{(data}\OperatorTok{$}\NormalTok{price,}\DataTypeTok{border=}\StringTok{"red"}\NormalTok{, }\DataTypeTok{xlab=}\StringTok{"price"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Distribution of price (Y)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Final_Presentation_Report_Group_3_files/figure-latex/unnamed-chunk-5-1.pdf}
+
+~
+
+\hypertarget{correlations-between-the-variables}{%
+\paragraph{Correlations between the
+variables}\label{correlations-between-the-variables}}
+
+Positive correlations are displayed in blue and negative correlations in
+red color. Color intensity and the size of the circle are proportional
+to the correlation coefficients. In the right side of the correlogram,
+the legend color shows the correlation coefficients and the
+corresponding colors.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Correlation plot}
+\NormalTok{data[, }\DecValTok{3}\OperatorTok{:}\DecValTok{20}\NormalTok{] }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\NormalTok{dplyr}\OperatorTok{::}\KeywordTok{select}\NormalTok{(}\OperatorTok{-}\NormalTok{zipcode) }\OperatorTok{%>%}\StringTok{ }\KeywordTok{cor}\NormalTok{() }\OperatorTok{%>%}\StringTok{ }
+\StringTok{  }\NormalTok{corrplot}\OperatorTok{::}\KeywordTok{corrplot}\NormalTok{(}\DataTypeTok{type =} \StringTok{"lower"}\NormalTok{, }\DataTypeTok{order =} \StringTok{"hclust"}\NormalTok{, }\DataTypeTok{tl.col =} \StringTok{"grey30"}\NormalTok{, }\DataTypeTok{tl.cex =} \FloatTok{0.9}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Final_Presentation_Report_Group_3_files/figure-latex/unnamed-chunk-6-1.pdf}
+
+~
+
+\hypertarget{building-our-base-specification-model}{%
+\subsection{Building our base specification
+model}\label{building-our-base-specification-model}}
+
+~
+
+\hypertarget{regressing-house-price-on-sqft_living}{%
+\paragraph{Regressing house price on
+sqft\_living}\label{regressing-house-price-on-sqft_living}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Base specification model between our dependent variable and variable of interest.}
+\NormalTok{sqft_living <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(price }\OperatorTok{~}\StringTok{ }\NormalTok{sqft_living, }\DataTypeTok{data =}\NormalTok{ data)}
+
+\KeywordTok{summary}\NormalTok{(sqft_living)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = price ~ sqft_living, data = data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -1476.1  -147.5   -24.1   106.2  4362.0 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) -43.603353   4.402789  -9.904   <2e-16 ***
+## sqft_living   0.280629   0.001936 144.922   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 261.5 on 21610 degrees of freedom
+## Multiple R-squared:  0.4929, Adjusted R-squared:  0.4928 
+## F-statistic: 2.1e+04 on 1 and 21610 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+From the above results, we can see that sqft\_living is positively
+correlated with the the price of the house. i.e.~If the sqft\_living
+increases by 1 foot, the price increases by \$280.
+
+~
+
+\hypertarget{plotting-price-vs-sqft_living}{%
+\paragraph{Plotting price vs
+sqft\_living}\label{plotting-price-vs-sqft_living}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Plot 1: plotting price vs sqft_living}
+\KeywordTok{ggplot}\NormalTok{(data, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{sqft_living, }\DataTypeTok{y=}\NormalTok{price)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{col=}\StringTok{"blue"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
+\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Price vs Sqft_living"}\NormalTok{, }\DataTypeTok{x =} \StringTok{"sqft_living"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"Price"}\NormalTok{) }\OperatorTok{+}
+\KeywordTok{stat_smooth}\NormalTok{(}\DataTypeTok{method =} \StringTok{"lm"}\NormalTok{, }\DataTypeTok{col =} \StringTok{"red"}\NormalTok{, }\DataTypeTok{se=}\OtherTok{FALSE}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{hjust =} \FloatTok{0.5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Final_Presentation_Report_Group_3_files/figure-latex/unnamed-chunk-8-1.pdf}
+
+~
+
+\hypertarget{plotting-the-sqft_living-and-residuals}{%
+\paragraph{Plotting the sqft\_living and
+residuals}\label{plotting-the-sqft_living-and-residuals}}
+
+Here, we notice that the variance of the residuals increases with
+sqft\_living
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Plot 2: plotting the residuals}
+\NormalTok{df_resid =}\StringTok{ }\NormalTok{data}
+
+\NormalTok{df_resid}\OperatorTok{$}\NormalTok{resid<-}\KeywordTok{resid}\NormalTok{(sqft_living)}
+
+\KeywordTok{ggplot}\NormalTok{(df_resid, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x=}\NormalTok{sqft_living, }\DataTypeTok{y=}\NormalTok{resid)) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom_point}\NormalTok{(}\DataTypeTok{col=}\StringTok{"blue"}\NormalTok{) }\OperatorTok{+}\StringTok{ }
+\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"sqft_living and Residuals"}\NormalTok{, }\DataTypeTok{x =} \StringTok{"sqft_living"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"Residuals"}\NormalTok{)  }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{hjust =} \FloatTok{0.5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Final_Presentation_Report_Group_3_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+From the Plot 1 and Plot 2, we see that the errors are heteroskadastic.
+Therefore we need to correct for standard errors.
+
+To do that, we use CSE function to calculate heteroskedastic-robust
+standard errors.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# CSE function is used to correct the standard errors}
+\NormalTok{cse=}\ControlFlowTok{function}\NormalTok{(reg) \{}
+
+\NormalTok{        rob=}\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{diag}\NormalTok{(}\KeywordTok{vcovHC}\NormalTok{(reg, }\DataTypeTok{type=}\StringTok{"HC2"}\NormalTok{)))}
+
+        \KeywordTok{return}\NormalTok{(rob)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+~
+
+\hypertarget{looking-at-potential-control-variables}{%
+\subsection{Looking at Potential Control
+Variables}\label{looking-at-potential-control-variables}}
+
+After researching the relevant literature , we notice that our dependent
+variable (house price) is broadly dependent on different feature
+categories as follows:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Size of the house : We know that size of the house plays an important
+  factor in determining whether or not the house prices increase and we
+  expect that as the size of the house increases, the house price should
+  increase. The size of the house is captured by various variables in
+  the dataset such as bedrooms, bathrooms, sqft\_living, floors,
+  sqft\_lot, sqft\_above, sqft\_basement.
+\item
+  Location: The Location of the house definitely plays an important role
+  in determining the house price. We expect that houses having better
+  location and safer neighbourhoods have higher prices as compared to
+  unsafe locations and similarly, houses near water bodies are more
+  expensive as compared to others. The variables in the dataset
+  indicative of the location of the house include, waterfront, zipcode,
+  lat and long. This is clearly indicated by the graph below where we
+  see that the prices are higher for properties which are located near a
+  waterfront / properties that may be in a safe neighbourhood as
+  compared to others.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Estimating home density and price}
+\NormalTok{map <-}\StringTok{ }\KeywordTok{qmplot}\NormalTok{(long, lat, }\DataTypeTok{data =}\NormalTok{ data, }\DataTypeTok{geom =} \StringTok{"blank"}\NormalTok{,}
+       \DataTypeTok{maptype =} \StringTok{"toner-lite"}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stat_density_2d}\NormalTok{(}\KeywordTok{aes}\NormalTok{(}\DataTypeTok{fill =}\NormalTok{ price), }
+                  \DataTypeTok{geom =} \StringTok{"polygon"}\NormalTok{, }\DataTypeTok{alpha =} \FloatTok{.5}\NormalTok{, }\DataTypeTok{color =} \OtherTok{NA}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale_fill_gradient2}\NormalTok{(}\DataTypeTok{low =} \StringTok{"steelblue"}\NormalTok{, }\DataTypeTok{mid =} \StringTok{"seagreen4"}\NormalTok{, }
+                        \DataTypeTok{high =} \StringTok{"indianred"}\NormalTok{, }\DataTypeTok{midpoint =} \DecValTok{7}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Estimated home density"}\NormalTok{)}
+\NormalTok{map}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Final_Presentation_Report_Group_3_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\item
+  View : If a particular house has a view or not. We expect that houses
+  with better views have higher prices. A house having a city view,
+  ocean view, mountain view etc have higher prices as compared to houses
+  which are more inland. The variable capturing that in the dataset is
+  view.
+\item
+  Conditions: If the house is in a better condition, it would require
+  lesser maintainence work and the house prices would generally be
+  higher for prices with better condition. If the house has better
+  construction, meaning it has better plumbing, roofing or newer
+  appliances the house would be more expensive. Similarily if the house
+  had a lower Grade the house would be less expensive.The variables
+  which talk about the conditions of the home in our dataset are,
+  condition and grade
+\item
+  Age of the house: We would expect that if the age of the house
+  increases, i.e.~if its an old house, the price of the house should
+  decrease. Similarly, if it's a new construction / newly renovated
+  home, the house price should be higher. The variables indicative of
+  the age of the house in our dataset are, age\_of\_house and
+  yr\_renovated variable.
+\end{enumerate}
+
+Other factors such as economic growth, supply and demand and interest
+rates all play a role in house prices. However our dataset does not
+include these factors so we will use the above mentioned variables to
+see which of these variables help us explain the effect of sqft\_living
+on house price.
+
+~
+
+\hypertarget{research-questionhypothesis}{%
+\subsection{Research
+Question/Hypothesis:}\label{research-questionhypothesis}}
+
+\begin{itemize}
+\item
+  \textbf{Research Question:} What is the causal effect of sqft\_living
+  on house price?
+\item
+  \textbf{Null Hypothesis:} There is no difference in house price when
+  sqft\_living increases and amenities such as having view, waterfront,
+  renovation and grade are added.
+\item
+  \textbf{Alternative Hypothesis:} Sqft\_living, having a waterfront,
+  view, Renovation and/or grade impact the price of the house.
+\item
+  \textbf{Variable of Interest:} Sqft\_living
+\item
+  \textbf{Dependent Variable:} House Price
+\item
+  \textbf{Control Variables:} Waterfront, View, Renovation and Grade
+\end{itemize}
+
+~
+
+\hypertarget{nested-method-analysis}{%
+\subsection{Nested Method Analysis}\label{nested-method-analysis}}
+
+~
+
+For the variables that fall under each of the categories mentioned
+above, we used a nested approach to determine whether they should be
+included in the final model or not. In the nested approach we run two
+variable regression models, wherein we see how adding one variable at a
+time to the base model affects the newly created model and how that
+compares to the base specification. For all the variables falling under
+one category, we plan to shortlist and use only one of the variables as
+control variables. The variable selected from each category would be the
+one that has the most effect or impact on house price when added in
+conjunction with the variable of interest. We plan to use only one
+variable from each category and not more than that because we might face
+an issue of multicollinearity. However we also plan to select atleast
+one variable from each category of size, location, view, condition and
+age to capture the highest impact of these features along with
+sqft\_living on house price.
+
+~
+
+\hypertarget{models---part-1}{%
+\paragraph{Models - Part 1}\label{models---part-1}}
+
+Our Base specification model is when we regress Price with Sqft\_living.
+The Alternative specifications are shown below.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#renovated_factor and sqft_living}
+\NormalTok{sqft_renovated <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(price }\OperatorTok{~}\StringTok{ }\NormalTok{sqft_living }\OperatorTok{+}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(renovated_factor) , }\DataTypeTok{data=}\NormalTok{data)}
+
+\CommentTok{#Bathroom and sqft_living}
+\NormalTok{sqft_bathrooms <-}\StringTok{  }\KeywordTok{lm}\NormalTok{(price }\OperatorTok{~}\StringTok{ }\NormalTok{sqft_living }\OperatorTok{+}\StringTok{ }\NormalTok{bathrooms , }\DataTypeTok{data=}\NormalTok{data)}
+
+\CommentTok{#Bedrooms and sqft_living}
+\NormalTok{sqft_bedrooms <-}\StringTok{  }\KeywordTok{lm}\NormalTok{(price }\OperatorTok{~}\StringTok{ }\NormalTok{sqft_living }\OperatorTok{+}\StringTok{ }\NormalTok{bedrooms , }\DataTypeTok{data=}\NormalTok{data)}
+
+\CommentTok{#Waterfront and sqft_living}
+\NormalTok{sqft_waterfront <-}\StringTok{  }\KeywordTok{lm}\NormalTok{(price }\OperatorTok{~}\StringTok{ }\NormalTok{sqft_living }\OperatorTok{+}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(waterfront) , }\DataTypeTok{data=}\NormalTok{data)}
+
+\CommentTok{#Sqft_above and sqft_living}
+\NormalTok{sqft_sabove <-}\StringTok{ }\KeywordTok{lm}\NormalTok{((price) }\OperatorTok{~}\StringTok{ }\NormalTok{sqft_living }\OperatorTok{+}\StringTok{ }\NormalTok{sqft_above, }\DataTypeTok{data=}\NormalTok{data)}
+
+
+\KeywordTok{stargazer}\NormalTok{(sqft_living,sqft_bathrooms,sqft_bedrooms,sqft_waterfront,sqft_sabove,sqft_renovated, }\DataTypeTok{se=}\KeywordTok{list}\NormalTok{(}\KeywordTok{cse}\NormalTok{(sqft_living),}\KeywordTok{cse}\NormalTok{(sqft_bathrooms), }\KeywordTok{cse}\NormalTok{(sqft_bedrooms),}\KeywordTok{cse}\NormalTok{(sqft_waterfront),}\KeywordTok{cse}\NormalTok{(sqft_sabove),}\KeywordTok{cse}\NormalTok{(sqft_renovated)),}\DataTypeTok{title=}\StringTok{"Price vs renovated_factor, Bedrooms,Bathrooms,waterfront,square_footage_above "}\NormalTok{, }\DataTypeTok{type=}\StringTok{"text"}\NormalTok{, }\DataTypeTok{star.cutoffs=}\OtherTok{NA}\NormalTok{, }\DataTypeTok{df=}\OtherTok{FALSE}\NormalTok{, }\DataTypeTok{digits=}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Price vs renovatedBedrooms,Bathrooms,waterfront,square
+## ==============================================================================================
+##                                                     Dependent variable:                       
+##                              -----------------------------------------------------------------
+##                                                 price                     (price)     price   
+##                                 (1)        (2)        (3)        (4)        (5)        (6)    
+## ----------------------------------------------------------------------------------------------
+## sqft_living                    0.281      0.284      0.317      0.273      0.295      0.279   
+##                               (0.006)    (0.007)    (0.007)    (0.005)    (0.009)    (0.006)  
+##                                                                                               
+## bathrooms                                 -5.162                                              
+##                                          (4.744)                                              
+##                                                                                               
+## bedrooms                                            -62.062                                   
+##                                                     (3.542)                                   
+##                                                                                               
+## as.factor(waterfront)1                                         829.988                        
+##                                                                (59.188)                       
+##                                                                                               
+## sqft_above                                                                 -0.019             
+##                                                                           (0.007)             
+##                                                                                               
+## as.factor(renovated_factor)1                                                         159.957  
+##                                                                                      (13.464) 
+##                                                                                               
+## Constant                      -43.603    -39.482     90.034    -32.981    -40.885    -46.352  
+##                               (10.812)   (10.483)   (8.178)    (10.102)   (10.627)   (10.742) 
+##                                                                                               
+## ----------------------------------------------------------------------------------------------
+## Observations                   21,612     21,612     21,612     21,612     21,612     21,612  
+## R2                             0.493      0.493      0.508      0.531      0.493      0.501   
+## Adjusted R2                    0.493      0.493      0.508      0.531      0.493      0.500   
+## Residual Std. Error           261.454    261.447    257.482    251.515    261.353    259.477  
+## F Statistic                  21,002.300 10,502.790 11,164.190 12,218.800 10,518.180 10,827.650
+## ==============================================================================================
+## Note:                                                                                       NA
+\end{verbatim}
+
+~
+
+\hypertarget{correlations}{%
+\paragraph{Correlations:}\label{correlations}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Bathroom and sqft_living}
+\KeywordTok{paste}\NormalTok{(}\StringTok{"Correlation between bathrooms and Living Square footage: "}\NormalTok{, }\KeywordTok{round}\NormalTok{(}\KeywordTok{cor}\NormalTok{(data}\OperatorTok{$}\NormalTok{bathrooms, data}\OperatorTok{$}\NormalTok{sqft_living), }\DataTypeTok{digits=}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Correlation between bathrooms and Living Square footage:  0.75"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Bedrooms and sqft_living}
+\KeywordTok{paste}\NormalTok{(}\StringTok{"Correlation between Bedrooms and Living Square footage: "}\NormalTok{, }\KeywordTok{round}\NormalTok{(}\KeywordTok{cor}\NormalTok{(data}\OperatorTok{$}\NormalTok{bedrooms, data}\OperatorTok{$}\NormalTok{sqft_living), }\DataTypeTok{digits=}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Correlation between Bedrooms and Living Square footage:  0.59"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Waterfront and sqft_living}
+\KeywordTok{paste}\NormalTok{(}\StringTok{"Correlation between Waterfront and Living Square footage: "}\NormalTok{, }\KeywordTok{round}\NormalTok{(}\KeywordTok{cor}\NormalTok{(data}\OperatorTok{$}\NormalTok{waterfront, data}\OperatorTok{$}\NormalTok{sqft_living), }\DataTypeTok{digits=}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Correlation between Waterfront and Living Square footage:  0.1"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Sqft_above and sqft_living}
+\KeywordTok{paste}\NormalTok{(}\StringTok{"Correlation between sqft_above and Living Square footage: "}\NormalTok{, }\KeywordTok{round}\NormalTok{(}\KeywordTok{cor}\NormalTok{(data}\OperatorTok{$}\NormalTok{sqft_above, data}\OperatorTok{$}\NormalTok{sqft_living), }\DataTypeTok{digits=}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Correlation between sqft_above and Living Square footage:  0.88"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#renovated_factor and sqft_living}
+\KeywordTok{paste}\NormalTok{(}\StringTok{"Correlation between renovated_factor and Living Square footage: "}\NormalTok{, }\KeywordTok{round}\NormalTok{(}\KeywordTok{cor}\NormalTok{(data}\OperatorTok{$}\NormalTok{renovated_factor, data}\OperatorTok{$}\NormalTok{sqft_living), }\DataTypeTok{digits=}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Correlation between renovated_factor and Living Square footage:  0.06"
+\end{verbatim}
+
+~
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Price vs bedroom and bathroom}
+\CommentTok{#Bathroom and price}
+\NormalTok{price_bathrooms <-}\StringTok{  }\KeywordTok{lm}\NormalTok{(price }\OperatorTok{~}\StringTok{ }\NormalTok{bathrooms , }\DataTypeTok{data=}\NormalTok{data)}
+
+\CommentTok{#Bedrooms and price}
+\NormalTok{price_bedrooms <-}\StringTok{  }\KeywordTok{lm}\NormalTok{(price }\OperatorTok{~}\StringTok{ }\NormalTok{bedrooms , }\DataTypeTok{data=}\NormalTok{data)}
+
+\KeywordTok{stargazer}\NormalTok{(price_bathrooms,price_bedrooms, }\DataTypeTok{se=}\KeywordTok{list}\NormalTok{(}\KeywordTok{cse}\NormalTok{(price_bathrooms), }\KeywordTok{cse}\NormalTok{(price_bedrooms)),}\DataTypeTok{title=}\StringTok{"Price vs Bedrooms and Bathrooms"}\NormalTok{, }\DataTypeTok{type=}\StringTok{"text"}\NormalTok{, }\DataTypeTok{star.cutoffs=}\OtherTok{NA}\NormalTok{, }\DataTypeTok{df=}\OtherTok{FALSE}\NormalTok{, }\DataTypeTok{digits=}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Price vs Bedrooms and Bathrooms
+## ========================================
+##                     Dependent variable: 
+##                     --------------------
+##                            price        
+##                        (1)        (2)   
+## ----------------------------------------
+## bathrooms            250.332            
+##                      (6.101)            
+##                                         
+## bedrooms                        127.548 
+##                                 (3.608) 
+##                                         
+## Constant              10.688    110.316 
+##                      (11.796)  (11.075) 
+##                                         
+## ----------------------------------------
+## Observations          21,612    21,612  
+## R2                    0.276      0.100  
+## Adjusted R2           0.276      0.099  
+## Residual Std. Error  312.443    348.399 
+## F Statistic         8,228.977  2,387.925
+## ========================================
+## Note:                                 NA
+\end{verbatim}
+
+~
+
+\begin{itemize}
+\item
+  When the number of bedrooms or bathrooms increases the price
+  intuitively should increase but we don't see that in the first
+  regression table. We then regressed bedrooms and bathrooms
+  individually with price and they had a positive relationship. But when
+  we add these variables in conjunction with sqft\_living, their
+  coefficients are negative. This indicates that these models are
+  suffering from imperfect multicollinearity and hence the variables
+  bedrooms and bathrooms should not be included in the model.
+\item
+  When waterfront is included, the adjusted R2 increases. The
+  coefficient of sqft\_living decreases. This means the model was
+  suffering from upward omitted variable bias. Generally waterfront
+  properties have higher sqft\_living and higher prices which explains
+  the upward omitted variable bias. Therefore, we include waterfront as
+  one of our control variables.
+\item
+  We see a similar problem as that of bedrooms and bathrooms, when
+  sqft\_above is added. The standard error increases and as the
+  correlation between sqft\_living and sqft\_living is 0.87 it is
+  suffering from imperfect multicollinearity as well. Hence we exclude
+  the variable sqft\_above from our final model.
+\item
+  When we include renovated\_factor in our model, the adjusted R2
+  increases and the positive coefficient makes sense intuitively.
+  i.e.~If the house is renovated, the price increase by \$160000. Also,
+  the coefficient of the sqft\_living decreases, which means that the
+  model was suffering from upward omitted variable bias and the variable
+  renovated factor helps us correct for that and hence we decide to
+  include the variable in our model.
+\end{itemize}
+
+~
+
+\hypertarget{models---part-2}{%
+\subsubsection{Models - Part 2}\label{models---part-2}}
+
+Next we regressed Price with view, condition, grade, age\_of\_house and
+yr\_renovated.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Condition and Living Square footage}
+\NormalTok{sqft_condition <-}\StringTok{  }\KeywordTok{lm}\NormalTok{(price }\OperatorTok{~}\StringTok{ }\NormalTok{sqft_living }\OperatorTok{+}\StringTok{ }\NormalTok{condition , }\DataTypeTok{data=}\NormalTok{data)}
+
+\CommentTok{#Age of the house and Living Square footage}
+\NormalTok{sqft_age_of_house <-}\StringTok{  }\KeywordTok{lm}\NormalTok{(price }\OperatorTok{~}\StringTok{ }\NormalTok{sqft_living }\OperatorTok{+}\StringTok{ }\NormalTok{age_of_house , }\DataTypeTok{data=}\NormalTok{data)}
+
+\CommentTok{#Grade and Living Square footage}
+\NormalTok{sqft_grade <-}\StringTok{  }\KeywordTok{lm}\NormalTok{(price }\OperatorTok{~}\StringTok{ }\NormalTok{sqft_living }\OperatorTok{+}\StringTok{ }\NormalTok{grade , }\DataTypeTok{data=}\NormalTok{data)}
+
+\CommentTok{#View and Living Square footage}
+\NormalTok{sqft_view <-}\StringTok{  }\KeywordTok{lm}\NormalTok{(price }\OperatorTok{~}\StringTok{ }\NormalTok{sqft_living }\OperatorTok{+}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(view) , }\DataTypeTok{data=}\NormalTok{data)}
+
+\CommentTok{#Floors and Living Square footage}
+\NormalTok{sqft_floors <-}\StringTok{  }\KeywordTok{lm}\NormalTok{(price }\OperatorTok{~}\StringTok{ }\NormalTok{sqft_living }\OperatorTok{+}\StringTok{ }\NormalTok{floors , }\DataTypeTok{data=}\NormalTok{data)}
+
+
+\KeywordTok{stargazer}\NormalTok{(sqft_living, sqft_condition,sqft_age_of_house,sqft_grade,sqft_view, sqft_floors,  }\DataTypeTok{se=}\KeywordTok{list}\NormalTok{(}\KeywordTok{cse}\NormalTok{(sqft_living),}\KeywordTok{cse}\NormalTok{(sqft_condition), }\KeywordTok{cse}\NormalTok{(sqft_age_of_house),}\KeywordTok{cse}\NormalTok{(sqft_grade),}\KeywordTok{cse}\NormalTok{(sqft_view), }\KeywordTok{cse}\NormalTok{(sqft_floors)),}
+
+                     \DataTypeTok{title=}\StringTok{"Price vs Condition, Age of the House, Grade and View respectively "}\NormalTok{, }\DataTypeTok{type=}\StringTok{"text"}\NormalTok{, }\DataTypeTok{star.cutoffs=}\OtherTok{NA}\NormalTok{, }\DataTypeTok{df=}\OtherTok{FALSE}\NormalTok{, }\DataTypeTok{digits=}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Price vs Condition, Age of the House, Grade and View respectively
+## ====================================================================================
+##                                           Dependent variable:                       
+##                     ----------------------------------------------------------------
+##                                                  price                              
+##                        (1)        (2)        (3)        (4)        (5)       (6)    
+## ------------------------------------------------------------------------------------
+## sqft_living           0.281      0.282      0.305      0.184      0.256     0.279   
+##                      (0.006)    (0.006)    (0.006)    (0.008)    (0.005)   (0.006)  
+##                                                                                     
+## condition                        43.908                                             
+##                                 (2.810)                                             
+##                                                                                     
+## age_of_house                                2.354                                   
+##                                            (0.085)                                  
+##                                                                                     
+## grade                                                  98.559                       
+##                                                       (3.729)                       
+##                                                                                     
+## as.factor(view)1                                                 169.618            
+##                                                                 (20.421)            
+##                                                                                     
+## as.factor(view)2                                                 127.664            
+##                                                                 (11.784)            
+##                                                                                     
+## as.factor(view)3                                                 214.295            
+##                                                                 (19.534)            
+##                                                                                     
+## as.factor(view)4                                                 620.884            
+##                                                                 (39.226)            
+##                                                                                     
+## floors                                                                      6.475   
+##                                                                            (3.890)  
+##                                                                                     
+## Constant             -43.603    -197.099   -208.701   -598.157   -14.469   -50.477  
+##                      (10.812)   (15.558)   (14.716)   (17.748)  (10.310)   (9.423)  
+##                                                                                     
+## ------------------------------------------------------------------------------------
+## Observations          21,612     21,612     21,612     21,612    21,612     21,612  
+## R2                    0.493      0.499      0.525      0.535      0.544     0.493   
+## Adjusted R2           0.493      0.499      0.525      0.534      0.544     0.493   
+## Residual Std. Error  261.454    259.900    253.111    250.493    247.900   261.440  
+## F Statistic         21,002.300 10,757.240 11,929.370 12,407.130 5,158.716 10,504.000
+## ====================================================================================
+## Note:                                                                             NA
+\end{verbatim}
+
+~
+
+\hypertarget{correlations-1}{%
+\paragraph{Correlations:}\label{correlations-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Condition and Living Square footage}
+\KeywordTok{paste}\NormalTok{(}\StringTok{"Condition and Living Square footage: "}\NormalTok{, }\KeywordTok{round}\NormalTok{(}\KeywordTok{cor}\NormalTok{(data}\OperatorTok{$}\NormalTok{condition, data}\OperatorTok{$}\NormalTok{sqft_living), }\DataTypeTok{digits=}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Condition and Living Square footage:  -0.06"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Age of the house and Living Square footage}
+\KeywordTok{paste}\NormalTok{(}\StringTok{"Year the age_of_house and Living Square footage: "}\NormalTok{, }\KeywordTok{round}\NormalTok{(}\KeywordTok{cor}\NormalTok{(data}\OperatorTok{$}\NormalTok{age_of_house, data}\OperatorTok{$}\NormalTok{sqft_living), }\DataTypeTok{digits=}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Year the age_of_house and Living Square footage:  -0.32"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# View and Living Square footage}
+\KeywordTok{paste}\NormalTok{(}\StringTok{"View and Living Square footage: "}\NormalTok{, }\KeywordTok{round}\NormalTok{(}\KeywordTok{cor}\NormalTok{(data}\OperatorTok{$}\NormalTok{view, data}\OperatorTok{$}\NormalTok{sqft_living), }\DataTypeTok{digits=}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "View and Living Square footage:  0.28"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Floors and Living Square footage}
+\KeywordTok{paste}\NormalTok{(}\StringTok{"Floors and Living Square footage: "}\NormalTok{, }\KeywordTok{round}\NormalTok{(}\KeywordTok{cor}\NormalTok{(data}\OperatorTok{$}\NormalTok{floors, data}\OperatorTok{$}\NormalTok{sqft_living), }\DataTypeTok{digits=}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Floors and Living Square footage:  0.35"
+\end{verbatim}
+
+\begin{itemize}
+\item
+  The correlation between condition with sqft\_living is very small (i.e
+  -0.06). That means that the model was suffering from omitted variable
+  bias which is not severe since the values are not significantly
+  different from the base specification. Hence we decide to exclude this
+  from our final model.
+\item
+  Age\_of\_house has a downward bias as the coefficient of sqft\_living
+  increases and also it is negatively correlated with price. However
+  even though the adjusted R2 of the model increases, it is counter
+  intuitive because an older house should be cheaper and hence we decide
+  to exclude age\_of\_house from our final model.
+\item
+  The Floors variable when added to the model isn't significant and the
+  R2 does not increase. Therefore we will not add it in our model.
+\item
+  The addition of the other two variables grade and view with
+  sqft\_living, indicates upward omitted variable bias has been removed
+  since the coefficient of sqft\_living decreases and overall model
+  performance increases. Hence we decide to keep grade and view in our
+  final model.
+\end{itemize}
+
+~
+
+\hypertarget{final-models}{%
+\subsection{Final Models:}\label{final-models}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Model 1}
+\NormalTok{sqft_living <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(price }\OperatorTok{~}\StringTok{ }\NormalTok{sqft_living, }\DataTypeTok{data=}\NormalTok{data)}
+
+\CommentTok{#Model2}
+\NormalTok{sqft_waterfront <-}\StringTok{  }\KeywordTok{lm}\NormalTok{(price }\OperatorTok{~}\StringTok{ }\NormalTok{sqft_living }\OperatorTok{+}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(waterfront), }\DataTypeTok{data=}\NormalTok{data)}
+
+\CommentTok{#Model 3}
+\NormalTok{sqft_waterfront_grade <-}\StringTok{  }\KeywordTok{lm}\NormalTok{(price }\OperatorTok{~}\StringTok{ }\NormalTok{sqft_living }\OperatorTok{+}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(waterfront) }\OperatorTok{+}\StringTok{ }\NormalTok{grade , }\DataTypeTok{data=}\NormalTok{data)}
+
+\CommentTok{#Model 4}
+\NormalTok{sqft_waterfront_g_v <-}\StringTok{  }\KeywordTok{lm}\NormalTok{(price }\OperatorTok{~}\StringTok{ }\NormalTok{sqft_living }\OperatorTok{+}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(waterfront) }\OperatorTok{+}\StringTok{ }\NormalTok{grade }\OperatorTok{+}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(view) , }\DataTypeTok{data=}\NormalTok{data)}
+
+\CommentTok{#Model 5}
+\NormalTok{sqft_waterfront_g_v_r <-}\StringTok{  }\KeywordTok{lm}\NormalTok{(price }\OperatorTok{~}\StringTok{ }\NormalTok{sqft_living }\OperatorTok{+}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(waterfront) }\OperatorTok{+}\StringTok{ }\NormalTok{renovated_factor }\OperatorTok{+}\StringTok{ }\NormalTok{grade }\OperatorTok{+}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(view), }\DataTypeTok{data=}\NormalTok{data)}
+
+\CommentTok{#Model 6}
+\NormalTok{reg6 <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(price }\OperatorTok{~}\StringTok{ }\NormalTok{sqft_living }\OperatorTok{+}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(waterfront) }\OperatorTok{+}\StringTok{ }\NormalTok{grade }\OperatorTok{+}\StringTok{ }\NormalTok{renovated_factor }\OperatorTok{+}\StringTok{ }\KeywordTok{as.factor}\NormalTok{(view) }\OperatorTok{+}\NormalTok{floors}\OperatorTok{*}\NormalTok{renovated_factor, }\DataTypeTok{data=}\NormalTok{data)}
+
+
+\CommentTok{#stargazer}
+\KeywordTok{stargazer}\NormalTok{(sqft_living, sqft_waterfront, sqft_waterfront_grade, sqft_waterfront_g_v, sqft_waterfront_g_v_r, reg6, }\DataTypeTok{se=}\KeywordTok{list}\NormalTok{(}\KeywordTok{cse}\NormalTok{(sqft_living),}\KeywordTok{cse}\NormalTok{(sqft_waterfront),}\KeywordTok{cse}\NormalTok{(sqft_waterfront_grade), }\KeywordTok{cse}\NormalTok{(sqft_waterfront_g_v), }\KeywordTok{cse}\NormalTok{(sqft_waterfront_g_v_r), }\KeywordTok{cse}\NormalTok{(reg6)),}\DataTypeTok{title=}\StringTok{"Price vs Square living footage with control variables "}\NormalTok{, }\DataTypeTok{type=}\StringTok{"text"}\NormalTok{, }\DataTypeTok{star.cutoffs=}\OtherTok{NA}\NormalTok{, }\DataTypeTok{df=}\OtherTok{FALSE}\NormalTok{, }\DataTypeTok{digits=}\DecValTok{3}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Price vs Square living footage with control variables
+## =====================================================================================
+##                                              Dependent variable:                     
+##                         -------------------------------------------------------------
+##                                                     price                            
+##                            (1)        (2)        (3)       (4)       (5)       (6)   
+## -------------------------------------------------------------------------------------
+## sqft_living               0.281      0.273      0.177     0.165     0.163     0.163  
+##                          (0.006)    (0.005)    (0.008)   (0.008)   (0.008)   (0.007) 
+##                                                                                      
+## as.factor(waterfront)1              829.988    825.150   511.762   492.703   495.239 
+##                                     (59.188)  (59.683)  (75.956)  (75.686)  (75.330) 
+##                                                                                      
+## renovated_factor                                                   129.925   -20.337 
+##                                                                   (12.057)  (41.723) 
+##                                                                                      
+## grade                                          98.037    94.505    96.134    103.109 
+##                                                (3.499)   (3.493)   (3.415)   (3.404) 
+##                                                                                      
+## as.factor(view)1                                         167.535   160.188   152.263 
+##                                                         (19.534)  (19.262)  (19.261) 
+##                                                                                      
+## as.factor(view)2                                         111.457   107.162   100.936 
+##                                                         (11.075)  (10.980)  (11.060) 
+##                                                                                      
+## as.factor(view)3                                         177.172   169.044   161.201 
+##                                                         (18.917)  (18.645)  (18.575) 
+##                                                                                      
+## as.factor(view)4                                         383.768   374.421   363.556 
+##                                                         (45.861)  (45.799)  (45.756) 
+##                                                                                      
+## floors                                                                       -34.632 
+##                                                                              (3.506) 
+##                                                                                      
+## renovated_factor:floors                                                      100.213 
+##                                                                             (30.713) 
+##                                                                                      
+## Constant                 -43.603    -32.981   -584.661  -548.597  -560.888  -561.926 
+##                          (10.812)   (10.102)  (16.812)  (16.286)  (16.033)  (16.263) 
+##                                                                                      
+## -------------------------------------------------------------------------------------
+## Observations              21,612     21,612    21,612    21,612    21,612    21,612  
+## R2                        0.493      0.531      0.572     0.591     0.596     0.598  
+## Adjusted R2               0.493      0.531      0.572     0.591     0.596     0.598  
+## Residual Std. Error      261.454    251.515    240.223   234.799   233.369   232.697 
+## F Statistic             21,002.300 12,218.800 9,623.096 4,461.779 3,985.364 3,219.449
+## =====================================================================================
+## Note:                                                                              NA
+\end{verbatim}
+
+For each category of dependent variable price, we found one variable to
+control each aspect. For example, from size aspect, we just selected the
+variable of interest sqft\_living in our model. We did not include any
+of the remaining variables from the size category in our final model. If
+we were to include more than one control variable to control for the
+same category of our dependent variable, multicollinearity becomes a
+problem which would throw off our coefficient estimates.To avoid that,
+we keep \textbf{regression 5 (sqft\_waterfront\_g\_v\_r)} as our final
+model. The variables included in the model from each category are:
+
+\textbf{Grade:} because we feel grade or the quality of construction for
+the house would play a role in how low or high the price of the house
+would be. If the house has better construction, meaning it has better
+plumbing, roofing or newer appliances the house would be more expensive.
+Similarily if the house had a lower Grade the house would be less
+expensive. Overall,as grade increases it has a positive relationship
+with price.
+
+\textbf{Waterfront and View:} Houses with better views are expected to
+be more expensive. The view of a house is also indicative of location.
+In our case, houses near the water are more expensive and have better
+views compared to houses more inland. The view variable accounts for two
+things and explains house price increases or decreases well which is why
+it is one of our control variables. Overall,as view increases it has a
+positive relationship with price.
+
+And lastly, the \textbf{dummy variable Renovation} indicates if any
+remodelling was done. Renovations are known to increase the value of
+older homes and allow them to potentially be priced at a higher rate. If
+Renovation is 1 it causes an increase in price.
+
+Each of these variables are included in the model and we see that,
+estimated beta hat of sqft\_living is suffering from upward omitted
+variable bias and by adding these variables we are able to fix that
+bias. The coefficient estimate of sqft\_living decreases as expected.
+And the model performance increases as we move from model 1 to 5.
+
+\hypertarget{interpretation-for-each-of-the-variable-in-the-final-model-includes}{%
+\paragraph{\texorpdfstring{\textbf{Interpretation for each of the
+variable in the final model
+includes:}}{Interpretation for each of the variable in the final model includes:}}\label{interpretation-for-each-of-the-variable-in-the-final-model-includes}}
+
+\emph{sqft\_living}
+
+\begin{itemize}
+\item
+  Estimate : 0.163
+\item
+  Interpretation: Holding everything else constant, the marginal effect
+  of 1 foot increase in sqft\_living increases the house price on an
+  average by \$163.
+\end{itemize}
+
+\emph{waterfront}
+
+\begin{itemize}
+\item
+  Estimate : 492.703
+\item
+  Interpretation: Holding everything else constant, a house with a
+  waterfront has house price higher by \$492703 on an average as
+  compared to houses without waterfront.
+\end{itemize}
+
+\emph{renovated\_factor}
+
+\begin{itemize}
+\item
+  Estimate : 129.925
+\item
+  Interpretation: Holding everything else constant, a house which is
+  renovated increases the price on average by \$129925 as compared to a
+  house that is not renovated.
+\end{itemize}
+
+\emph{grade}
+
+\begin{itemize}
+\item
+  Estimate : 96.134
+\item
+  Interpretation: Holding everything else constant, with each level
+  increase in grade (i.e.~from poor building construction and design to
+  good building construction and design), the price increases by \$96134
+  on an average.
+\end{itemize}
+
+\emph{view1}
+
+\begin{itemize}
+\item
+  Estimate : 167.535
+\item
+  Interpretation: Holding everything else constant, if the house has
+  view 1 on a scale of 0-4, the price increases by \$167535 on an
+  average.
+\end{itemize}
+
+\emph{view2}
+
+\begin{itemize}
+\item
+  Estimate : 107.162
+\item
+  Interpretation: Holding everything else constant, if the house has
+  view 2 on a scale of 0-4, the price increases by \$107162 on an
+  average.
+\end{itemize}
+
+\emph{view3}
+
+\begin{itemize}
+\item
+  Estimate : 169.044
+\item
+  Interpretation: Holding everything else constant, if the house has
+  view 3 on a scale of 0-4, the price increases by \$169044 on an
+  average.
+\end{itemize}
+
+\emph{view4}
+
+\begin{itemize}
+\item
+  Estimate : 374.421
+\item
+  Interpretation: Holding everything else constant, if the house has
+  view 4 on a scale of 0-4, the price increases by \$374421 on an
+  average.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#Calculating the correlation between control variables and variable of interest(sqft_living)}
+
+\KeywordTok{round}\NormalTok{(}\KeywordTok{cor}\NormalTok{(data}\OperatorTok{$}\NormalTok{sqft_living,data[}\KeywordTok{c}\NormalTok{(}\DecValTok{7}\NormalTok{,}\DecValTok{8}\NormalTok{,}\DecValTok{10}\NormalTok{,}\DecValTok{20}\NormalTok{)]),}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      waterfront view grade renovated_factor
+## [1,]        0.1 0.28  0.76             0.06
+\end{verbatim}
+
+Another reason we have chosen to add these control variables along with
+our variable of interest is their correlation. A renovated home could
+mean anything from new appliances to expanding the actual sqft\_living.
+With the potentially of meaningfully impacting the variable of interest
+we added the dummy variable to the model. Next the waterfront variable
+has a subtle relationship with living footage. Homes near the water are
+known to be more expensive for a multitude of reasons one of which being
+that the homes are expected to be larger. View is linked a little with
+waterfront as both of these variables take into consideration the
+location. As expected certain neighborhoods have larger homes and just
+in general more sqft\_living. Lastly, grade is associated with
+construction which accounts for things like closet areas and stairways.
+Things such as enclosed porches are sometimes included in sqft\_living
+which is associated with a higher grade value. Overall, these four
+control variables play a role in determining price and also have a
+relationship with our variable of interest.
+
+\textbf{We also validate our final model findings by running t and
+f-tests as follows:}
+
+~
+
+\hypertarget{testing-for-significance-of-our-control-variables-in-model-5-using-a-t-test}{%
+\paragraph{\texorpdfstring{\textbf{Testing for significance of our
+control variables in model 5 using a
+T-test}}{Testing for significance of our control variables in model 5 using a T-test}}\label{testing-for-significance-of-our-control-variables-in-model-5-using-a-t-test}}
+
+\begin{itemize}
+\item
+  sqft\_living : \textbar20.38\textbar{} \textgreater{} 1.96
+\item
+  as.factor(waterfront)1 : \textbar6.50\textbar{} \textgreater{} 1.96
+\item
+  renovated\_factor : \textbar10.78\textbar{} \textgreater{} 1.96
+\item
+  grade : \textbar28.15\textbar{} \textgreater{} 1.96
+\item
+  as.factor(view)1 : \textbar8.32\textbar{} \textgreater{} 1.96
+\item
+  as.factor(view)2 : \textbar9.76\textbar{} \textgreater{} 1.96
+\item
+  as.factor(view)3 : \textbar9.07\textbar{} \textgreater{} 1.96
+\item
+  as.factor(view)4 : \textbar8.18\textbar{} \textgreater{} 1.96
+\end{itemize}
+
+We can see that all the control variables in our final model are
+statistically significant at 5\% significance level
+(i.e.~\textbar t-stat\textbar{} \textgreater{} 1.96). Therefore, we can
+safely reject the null hypothesis that any of these variables do not
+have a coefficient of zero.
+
+~
+
+\hypertarget{performing-f-tests-to-determine-the-significance-of-the-model}{%
+\paragraph{Performing F tests to determine the significance of the
+model}\label{performing-f-tests-to-determine-the-significance-of-the-model}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{### Comparing model with waterfront, grade and view i.e. model 5 with model 1}
+
+\NormalTok{unrestricted_model <-}\StringTok{ }\NormalTok{sqft_waterfront_g_v_r}
+\NormalTok{restricted_model <-}\StringTok{ }\NormalTok{sqft_living}
+\KeywordTok{anova}\NormalTok{(restricted_model, unrestricted_model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Model 1: price ~ sqft_living
+## Model 2: price ~ sqft_living + as.factor(waterfront) + renovated_factor + 
+##     grade + as.factor(view)
+##   Res.Df        RSS Df Sum of Sq      F    Pr(>F)    
+## 1  21610 1477223932                                  
+## 2  21603 1176525231  7 300698700 788.76 < 2.2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+Comparing the Restricted Model with the Unrestricted Model, we can see
+that the Unrestricted model is a better fit as its p value is less than
+0.05 and the F value ie greater than the critical value. Therefore we
+reject the null hypothesis and state that at least one of the
+coefficients of the variables is non-zero
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{### Comparing model 6 with model 5(our final model)}
+\NormalTok{unrestricted_model_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{reg6}
+\NormalTok{restricted_model_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{sqft_waterfront_g_v_r}
+\KeywordTok{anova}\NormalTok{(restricted_model_}\DecValTok{1}\NormalTok{, unrestricted_model_}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Variance Table
+## 
+## Model 1: price ~ sqft_living + as.factor(waterfront) + renovated_factor + 
+##     grade + as.factor(view)
+## Model 2: price ~ sqft_living + as.factor(waterfront) + grade + renovated_factor + 
+##     as.factor(view) + floors * renovated_factor
+##   Res.Df        RSS Df Sum of Sq      F    Pr(>F)    
+## 1  21603 1176525231                                  
+## 2  21601 1169646389  2   6878842 63.519 < 2.2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+Comparing model 6 and 5, from the above regression table we can see that
+the beta hat estimator is not changing. As the beta hat has converged we
+can say that we have gotten our final model. The addition of the
+interaction variable floors with renovated\_factor improves the goodness
+of fit slightly. We will stick with regression 5 as our final
+modelbecause floors variable doesn't add much value even though the
+R-square increases and also because we do not want to overfit the model.
+We believe that the control variables we have chosen take into
+consideration a variety of factors that impact house price as a whole.
+
+~
+
+\hypertarget{conclusion}{%
+\subsection{Conclusion:}\label{conclusion}}
+
+The Square Foot Living of the house has a positive impact on house
+prices. Furthermore, as new amenities are added to a house, the house
+price will increase.
+
+~
+
+\emph{Internal Validity} Our estimators were unbiased and consistent
+because as the sample size increases the estimates are getting closer to
+the true value. Also the estimators are converging to the true value.
+
+\begin{itemize}
+\item
+  Furthermore, we corrected for Heteroskedasticity by using the cse
+  function which means that the first assumption of the least square
+  i.e.~Var(x\textbar u) = 0 is met.
+\item
+  The second assumption is met because our variable of interest and
+  dependent variable are i.i.d which is assumed for cross-sectional
+  observational data.
+\item
+  The third assumption is met, as we determined which outliers could be
+  kept and which needed to be removed.
+\item
+  For the fourth assumption, we removed any control variables that
+  resulted in Multicollinearity.
+\item
+  As we have met the four assumptions for Least Squares we can say that
+  our estimator is unbiased. E(hatβ0) =β0 and E(hatβ1) =β1.
+\item
+  Also comparing our restricted model to our unrestricted model our
+  R\^{}2 and adjusted R\^{}2 increased from 49\% to 60\%. This means our
+  final model explains 11\% more of the variation in Y than our base
+  specification model.
+\end{itemize}
+
+~
+
+\emph{External Validity} As our data is only house sales for one year in
+King's County, we think we would need a larger sample size to generalize
+our findings.
+
+\end{document}
