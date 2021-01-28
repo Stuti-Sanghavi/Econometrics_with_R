@@ -1,4 +1,4 @@
-# About
+# Learnings from the course
 
 1. Calculating descriptive statistics and create graphs commonly used in economics, and
 interpret both
